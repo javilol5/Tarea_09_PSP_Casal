@@ -19,7 +19,7 @@ public class Descarga extends Thread {
 
         this.nombreArchivo = nombreArchivo;
 
-        this.tiempoBloque = random.nextInt(800) + 200; // 200-1000 ms
+        this.tiempoBloque = random.nextInt(400) + 100; // 100-500 ms
     }
 
     @Override
