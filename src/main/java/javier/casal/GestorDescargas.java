@@ -7,6 +7,7 @@ public class GestorDescargas {
     public static final String BLUE = "\u001B[34m";
     public static final String RESET = "\u001B[0m";
     public static final String RED = "\u001B[31m";
+    public static final String CYAN = "\u001B[36m";
 
     public static void main(String[] args) {
 
@@ -50,9 +51,34 @@ public class GestorDescargas {
             descargas[i].setName("Descarga-" + archivos[i]);
         }
 
+        // 3 buscar meditacion.mp4 y mantras.mp3
+        Descarga meditacion = null;
+        Descarga mantras = null;
+
+        for (int i = 0; i < descargas.length; i++) {
+
+            if (archivos[i].equals("meditacion.mp4")) {
+                meditacion = descargas[i];
+            }
+
+            if (archivos[i].equals("mantras.mp3")) {
+                mantras = descargas[i];
+            }
+        }
+
         // 2 crear monitor
         Monitor monitor = new Monitor(descargas);
         Thread hiloMonitor = new Thread(monitor);
+
+        // 3 crear instalador
+        Instalador instalador = null;
+        Thread hiloInstalador = null;
+
+        if (meditacion != null && mantras != null) {
+
+            instalador = new Instalador(meditacion, mantras);
+            hiloInstalador = new Thread(instalador);
+        }
 
         // 1 guardar tiempo de inicio del programa
         long inicio = System.currentTimeMillis();
@@ -84,6 +110,26 @@ public class GestorDescargas {
         // 2 arrancar el monitor
         hiloMonitor.start();
 
+        // 3 arrancar el instalador
+        if (hiloInstalador != null) {
+            hiloInstalador.start();
+        }
+
+        // 3 esperar maximo 3 segundos
+        if (meditacion != null) {
+
+            try {
+                meditacion.join(3000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                return;
+            }
+
+            if (meditacion.isAlive()) {
+                System.out.println(CYAN + "[Main] " + RESET + "meditacion.mp4 sigue en segundo plano");
+            }
+        }
+
         // 2 esperar a que TODAS terminen
         try {
 
@@ -91,7 +137,13 @@ public class GestorDescargas {
                 descargas[i].join();
             }
 
+            // esperar al monitor
             hiloMonitor.join();
+
+            // esperar al instalador
+            if (hiloInstalador != null) {
+                hiloInstalador.join();
+            }
 
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
