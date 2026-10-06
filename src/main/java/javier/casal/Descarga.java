@@ -16,8 +16,8 @@ public class Descarga extends Thread {
     Random random = new Random();
 
     public Descarga(String nombreArchivo) {
-        this.nombreArchivo = nombreArchivo;
 
+        this.nombreArchivo = nombreArchivo;
 
         this.tiempoBloque = random.nextInt(400) + 100; // 100-500 ms
     }
