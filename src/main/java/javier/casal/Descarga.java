@@ -19,7 +19,7 @@ public class Descarga extends Thread {
 
         this.nombreArchivo = nombreArchivo;
 
-        this.tiempoBloque = random.nextInt(400) + 100; // 100-500 ms
+        this.tiempoBloque = random.nextInt(800) + 200; // 200-1000 ms
     }
 
     @Override
@@ -28,7 +28,7 @@ public class Descarga extends Thread {
 
         for (int i = 1; i <= 10; i++) {
             try {
-                Thread.sleep(random.nextInt(800)+200);
+                Thread.sleep(tiempoBloque);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 return;
