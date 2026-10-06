@@ -15,6 +15,7 @@ public class Descarga extends Thread {
 
     Random random = new Random();
 
+    // Constructor que recibe el nombre del archivo a descargar
     public Descarga(String nombreArchivo) {
 
         this.nombreArchivo = nombreArchivo;
@@ -22,6 +23,7 @@ public class Descarga extends Thread {
         this.tiempoBloque = random.nextInt(400) + 100; // 100-500 ms
     }
 
+    // Getter para obtener el nombre del archivo
     @Override
     public void run() {
         long inicio = System.currentTimeMillis();
@@ -42,7 +44,7 @@ public class Descarga extends Thread {
 
         System.out.println(GREEN +  "[" + nombreArchivo + "]" + RESET + "completada en " + BLUE + tiempoTotal + " ms" + RESET);
     }
-
+    // Getter para obtener el tiempo total de descarga
     public long getTiempoTotal() {
         return tiempoTotal;
     }
